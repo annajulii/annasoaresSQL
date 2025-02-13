@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 13/02/2025 às 17:37
+-- Tempo de geração: 13-Fev-2025 às 21:14
 -- Versão do servidor: 10.4.28-MariaDB
--- Versão do PHP: 8.2.4
+-- versão do PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,11 +20,14 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `annasoaresestoque`
 --
+DROP DATABASE IF EXISTS `annasoaresestoque`;
+CREATE DATABASE IF NOT EXISTS `annasoaresestoque` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `annasoaresestoque`;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `cliente`
+-- Estrutura da tabela `cliente`
 --
 
 CREATE TABLE `cliente` (
@@ -39,7 +42,7 @@ CREATE TABLE `cliente` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `cliente`
+-- Extraindo dados da tabela `cliente`
 --
 
 INSERT INTO `cliente` (`cod_cliente`, `nome_cliente`, `endereço`, `cidade`, `cep`, `uf`, `cnpj`, `ie`) VALUES
@@ -61,7 +64,7 @@ INSERT INTO `cliente` (`cod_cliente`, `nome_cliente`, `endereço`, `cidade`, `ce
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `item_de_pedido`
+-- Estrutura da tabela `item_de_pedido`
 --
 
 CREATE TABLE `item_de_pedido` (
@@ -71,7 +74,7 @@ CREATE TABLE `item_de_pedido` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `item_de_pedido`
+-- Extraindo dados da tabela `item_de_pedido`
 --
 
 INSERT INTO `item_de_pedido` (`num_pedido`, `cod_produto`, `quantidade_produto`) VALUES
@@ -110,7 +113,7 @@ INSERT INTO `item_de_pedido` (`num_pedido`, `cod_produto`, `quantidade_produto`)
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `pedido`
+-- Estrutura da tabela `pedido`
 --
 
 CREATE TABLE `pedido` (
@@ -121,7 +124,7 @@ CREATE TABLE `pedido` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `pedido`
+-- Extraindo dados da tabela `pedido`
 --
 
 INSERT INTO `pedido` (`num_pedido`, `prazo_entrega`, `cod_cliente`, `Cod_vendedor`) VALUES
@@ -147,7 +150,7 @@ INSERT INTO `pedido` (`num_pedido`, `prazo_entrega`, `cod_cliente`, `Cod_vendedo
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `produto`
+-- Estrutura da tabela `produto`
 --
 
 CREATE TABLE `produto` (
@@ -158,7 +161,7 @@ CREATE TABLE `produto` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `produto`
+-- Extraindo dados da tabela `produto`
 --
 
 INSERT INTO `produto` (`cod_produto`, `unid_produto`, `desc_produto`, `valor_unit`) VALUES
@@ -176,7 +179,7 @@ INSERT INTO `produto` (`cod_produto`, `unid_produto`, `desc_produto`, `valor_uni
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `vendedor`
+-- Estrutura da tabela `vendedor`
 --
 
 CREATE TABLE `vendedor` (
@@ -187,7 +190,7 @@ CREATE TABLE `vendedor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `vendedor`
+-- Extraindo dados da tabela `vendedor`
 --
 
 INSERT INTO `vendedor` (`Cod_vendedor`, `Nome_vendedor`, `Sal_fixo`, `FaixaComissao`) VALUES
@@ -206,20 +209,20 @@ INSERT INTO `vendedor` (`Cod_vendedor`, `Nome_vendedor`, `Sal_fixo`, `FaixaComis
 --
 
 --
--- Índices de tabela `cliente`
+-- Índices para tabela `cliente`
 --
 ALTER TABLE `cliente`
   ADD PRIMARY KEY (`cod_cliente`);
 
 --
--- Índices de tabela `item_de_pedido`
+-- Índices para tabela `item_de_pedido`
 --
 ALTER TABLE `item_de_pedido`
   ADD KEY `Fk_num_pedido_pedido` (`num_pedido`),
   ADD KEY `Fk_cod_produto_produto` (`cod_produto`);
 
 --
--- Índices de tabela `pedido`
+-- Índices para tabela `pedido`
 --
 ALTER TABLE `pedido`
   ADD PRIMARY KEY (`num_pedido`),
@@ -227,30 +230,30 @@ ALTER TABLE `pedido`
   ADD KEY `Fk_vendedor_pedido` (`Cod_vendedor`);
 
 --
--- Índices de tabela `produto`
+-- Índices para tabela `produto`
 --
 ALTER TABLE `produto`
   ADD PRIMARY KEY (`cod_produto`);
 
 --
--- Índices de tabela `vendedor`
+-- Índices para tabela `vendedor`
 --
 ALTER TABLE `vendedor`
   ADD PRIMARY KEY (`Cod_vendedor`);
 
 --
--- Restrições para tabelas despejadas
+-- Restrições para despejos de tabelas
 --
 
 --
--- Restrições para tabelas `item_de_pedido`
+-- Limitadores para a tabela `item_de_pedido`
 --
 ALTER TABLE `item_de_pedido`
   ADD CONSTRAINT `Fk_cod_produto_produto` FOREIGN KEY (`cod_produto`) REFERENCES `produto` (`cod_produto`),
   ADD CONSTRAINT `Fk_num_pedido_pedido` FOREIGN KEY (`num_pedido`) REFERENCES `pedido` (`num_pedido`);
 
 --
--- Restrições para tabelas `pedido`
+-- Limitadores para a tabela `pedido`
 --
 ALTER TABLE `pedido`
   ADD CONSTRAINT `Fk_cliente_pedido` FOREIGN KEY (`cod_cliente`) REFERENCES `cliente` (`cod_cliente`),
